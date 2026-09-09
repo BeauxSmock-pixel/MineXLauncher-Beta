@@ -457,5 +457,36 @@
             <span class="username" id="profile-name">MinecraftXLauncher</span>
         </div>
     </div>
+	<script type="text/javascript">
+    // 1. Automatic "Focus Loss" Cloaking (Cloaks when you switch tabs)
+    const originalTitle = document.title;
+    const originalIcon = "favicon.ico"; // Adjust if your launcher has a specific icon
+
+    // Set the fake classroom disguise assets
+    const fakeTitle = "Google Classroom";
+    const fakeIcon = "https://classroom.google.com/favicon.ico";
+
+    window.addEventListener("blur", () => {
+        document.title = fakeTitle;
+        changeFavicon(fakeIcon);
+    });
+
+    window.addEventListener("focus", () => {
+        document.title = originalTitle;
+        changeFavicon(originalIcon);
+    });
+
+    // Helper function to dynamically swap the tab icon link
+    function changeFavicon(src) {
+        let link = document.querySelector("link[rel*='icon']");
+        if (!link) {
+            link = document.createElement("link");
+            link.rel = "shortcut icon";
+            document.head.appendChild(link);
+        }
+        link.href = src;
+    }
+</script>
+
 </body>
 </html>
