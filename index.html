@@ -457,35 +457,44 @@
             <span class="username" id="profile-name">MinecraftXLauncher</span>
         </div>
     </div>
-	<script type="text/javascript">
-    // 1. Automatic "Focus Loss" Cloaking (Cloaks when you switch tabs)
-    const originalTitle = document.title;
-    const originalIcon = "favicon.ico"; // Adjust if your launcher has a specific icon
+	<script>
+// 1. Automatic "Focus Loss" Cloaking (Cloaks when you switch tabs)
+const originalTitle = document.title;
 
-    // Set the fake classroom disguise assets
-    const fakeTitle = "Google Classroom";
-    const fakeIcon = "https://classroom.google.com";
+// Dynamically fetch whatever your site's current icon is before switching
+const originalIcon = document.querySelector('link[rel*="icon"]')?.href || "favicon.ico";
 
-    window.addEventListener("blur", () => {
-        document.title = fakeTitle;
-        changeFavicon(fakeIcon);
-    });
+// Google Classroom Classroom Disguise Assets
+const fakeTitle = "Google Classroom";
 
-    window.addEventListener("focus", () => {
-        document.title = originalTitle;
-        changeFavicon(originalIcon);
-    });
+// Pure Base64 data for the Google Classroom chalkboard icon (No external links required)
+const fakeIcon = "data:image/x-icon;base64,AAABAAEAEBAAAAEACABoBQAAFgAAACgAAAAQAAAAIAAAAAEACAAAAAAAAAEAAAAAAAAAAAAAAAEAAAAAAAAAAAAAYqMdAAC8/wBanhIAAbT0AGSkIQBfoRkAWZ4RAP///wAJt/QAZKQgAF+hGAATuvUAFLr1AFyfFQAVuvUAY6QfAGGiHABbnxQAZqUjAAa29AAHtvQACLb0AGGiGwAQufUAErn1AFufEwBlpSIAYKIaAF2gFwBeoBcA9///AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA//8AAP//AAA=";
 
-    // Helper function to dynamically swap the tab icon link
-    function changeFavicon(src) {
-        let link = document.querySelector("link[rel*='icon']");
-        if (!link) {
-            link = document.createElement("link");
-            link.rel = "shortcut icon";
-            document.head.appendChild(link);
-        }
-        link.href = src;
-    }
+window.addEventListener("blur", () => {
+    document.title = fakeTitle;
+    forceChangeFavicon(fakeIcon);
+});
+
+window.addEventListener("focus", () => {
+    document.title = originalTitle;
+    forceChangeFavicon(originalIcon);
+});
+
+// Forces the browser to completely drop the old icon and attach the new one
+function forceChangeFavicon(src) {
+    // Find and remove ALL existing favicon elements to prevent browser confusion
+    const existingLinks = document.querySelectorAll('link[rel*="icon"]');
+    existingLinks.forEach(link => link.parentNode.removeChild(link));
+
+    // Create a brand new clean link tag
+    const newLink = document.createElement("link");
+    newLink.type = "image/x-icon";
+    newLink.rel = "shortcut icon";
+    newLink.href = src;
+    
+    // Append to head
+    document.head.appendChild(newLink);
+}
 </script>
 
 </body>
