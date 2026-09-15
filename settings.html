@@ -380,7 +380,7 @@
 
          function submitForm() {
             var username = document.getElementById('usernameInput').value;
-            document.cookie = "username=" + encodeURIComponent(username);
+            document.cookie = "username=" + encodeURIComponent(username) + "; Path=/; Max-Age=31536000; SameSite=Lax; Secure";
             location.reload();
             alert("Settings saved successfully!");
          }
@@ -388,9 +388,9 @@
          function modKitChecker() {
             var modMakerCheckbox = document.getElementById('modMakerCheckbox');
             if (modMakerCheckbox.checked) {
-               document.cookie = "modMakerKitEnabled=true";
+               document.cookie = "modMakerKitEnabled=true; Path=/; Max-Age=31536000; SameSite=Lax; Secure";
             } else {
-               document.cookie = "modMakerKitEnabled=false";
+               document.cookie = "modMakerKitEnabled=false; Path=/; Max-Age=31536000; SameSite=Lax; Secure";
             }
             location.reload();
          }
